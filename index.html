@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Timerling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Yan Wittmann">
+  <meta name="description" content="A countdown timer that works with multiple timezones.">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="img/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="img/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="img/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="img/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="img/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+  <link rel="manifest" href="img/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="img/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.3/moment-timezone-with-data.min.js"></script>
+</head>
+
+<body class="color-scheme-bg-background">
+
+  <div id="background-container">
+    <div class="background-wave background-wave-top flip"></div>
+    <div class="background-wave background-wave-bottom"></div>
+  </div>
+
+  <div id="content-container" class="center-screen">
+    <input type="datetime-local" id="picker-datetime" class="hidden input color-scheme-text-foreground" />
+    <input type="date" id="picker-date" class="hidden input color-scheme-text-foreground" />
+    <input type="time" id="picker-time" class="hidden input color-scheme-text-foreground" />
+    <select id="picker-timezone" class="hidden input color-scheme-text-foreground"></select>
+    <input type="text" id="input-countdown-name" name="input-countdown-name" size="20" placeholder="Countdown name" class="hidden input color-scheme-text-foreground" />
+    <hr id="splitter" class="hidden">
+    <input type="button" id="btnSubmit" onclick="createNewCountdown()" value="Create countdown" class="hidden input color-scheme-text-foreground" />
+    <span id="output-countdown" class="hidden color-scheme-text-foreground"></span>
+    <span id="top-hover" class="hidden color-scheme-text-foreground fade-out-animation">
+      <span id="output-countdown-name" class="input-type-2 color-scheme-text-foreground color-scheme-bg-background"></span>
+      <span id="output-dest-time" class="input-type-2 color-scheme-text-foreground color-scheme-bg-background"></span>
+      <span id="output-dest-time-local" class="input-type-2 color-scheme-text-foreground color-scheme-bg-background"></span>
+    </span>
+    <span id="bottom-left-hover" class="hidden color-scheme-text-foreground fade-out-animation">
+      <select id="picker-output-format" class="input-type-2 color-scheme-text-foreground color-scheme-bg-background" onchange="refreshCountdown();">
+        <option value="def" selected>Default</option>
+        <option value="smart">Smart</option>
+        <option value="day">Days</option>
+        <option value="hr">Hours</option>
+        <option value="min">Minutes</option>
+        <option value="sec">Seconds</option>
+        <option value="ms">Milliseconds</option>
+        <option value="ow">Outer Wilds</option>
+      </select>
+      <button id="share-link-button" class="input-type-2 color-scheme-text-foreground color-scheme-bg-background clickable" onclick="copyLink();">Copy link</button>
+      <button id="donate-button" class="input-type-2 color-scheme-text-foreground color-scheme-bg-background"><a style="text-decoration: none;" class="color-scheme-text-foreground" target="_blank" href="https://www.paypal.com/paypalme/yanwittmann">Donate</a></button>
+      <button class="input-type-2 color-scheme-text-foreground color-scheme-bg-background clickable" onclick="createNew();">Create new</button>
+      © 2020-2021 Yan Wittmann
+    </span>
+  </div>
+
+  <script src="script/util.js"></script>
+  <script src="script/main.js"></script>
+</body>
+
+</html>
