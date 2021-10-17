@@ -1,5 +1,10 @@
 let updateInterval;
 
+let timestamp = getUrlParameter('t');
+if (timestamp === "2021-09-28 10:00:00 +00:00" || timestamp === "2021-09-28%2010%3A00%3A00%20%2B00%3A00") {
+    window.location.href = urlWithoutFilename();
+}
+
 function init(mode) {
     // make the user agree to the localStorage first
     if (areCookiesConfirmed()) {
