@@ -52,19 +52,19 @@
     <span id="countdown-name" class="background-color text-color large-view-top-indicator unselectable hidden"></span>
     <span id="countdown-destination" class="background-color text-color large-view-top-indicator unselectable hidden"></span>
     <span id="countdown-copy-link" class="background-color text-color large-view-top-indicator unselectable clickable hidden" onclick="copyLargeTimerLink();">Copy Link</span>
-    <span id="countdown-create-new" class="background-color text-color large-view-top-indicator unselectable clickable hidden" onclick="switchFromLargeToGrouped();">Create new</span>
+    <span id="countdown-create-new" class="background-color text-color large-view-top-indicator unselectable clickable hidden" onclick="switchFromLargeToGrouped();">Timer Overview</span>
 </div>
 
 <div id="confirm-cookies" class="modal">
     <div class="modal-content background-color text-color">
         Welcome to Timerling!<br>
-        This tool allows you to create countdown timers and share them with others.<br><br>
+        This tool allows you to create countdown timers and share them with others via links.<br><br>
         To use this tool, you will have to agree to these two terms:
         <ul>
-            <li>To store the timers in your current browser, the JavaScript localStorage is used, essentially a form of a cookie</li>
-            <li>To find out, how popular of a service this tool is, every time this site is called and when a new timer is created, a request is made to my database to increment a counter</li>
+            <li>To store the timers in your browser, the JavaScript localStorage is used.</li>
+            <li>To find out, how popular of a service this tool is, every time this site is called and when a new timer is created, a request is made to my database to increment a counter.</li>
         </ul>
-        Other than that, no data is stored and certainly not shared with anyone else.<br>
+        Other than that, no data is stored and no personal data is shared with anyone.<br>
         <input type="button" id="btnAcceptCookies" onclick="acceptCookies();" value="Accept" class="input text-color clickable"/>
         <input type="button" id="btnDenyCookies" onclick="denyCookies();" value="Deny" class="input text-color clickable"/>
     </div>

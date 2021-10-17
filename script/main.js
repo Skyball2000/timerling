@@ -39,7 +39,7 @@ function init(mode) {
             }
         });
 
-        document.addEventListener('long-press', function(e) {
+        document.addEventListener('long-press', function (e) {
             longPressed(e.target);
         });
     } else if (mode === 1) { // large view
@@ -58,5 +58,8 @@ function init(mode) {
 
 function longPressed(element) {
     let uuid = element.id;
-    modifyTimerIntent(uuid);
+    if (uuid == null || uuid === '')
+        uuid = element.parentElement.id;
+    console.log(element);
+    switchFromGroupedToLarge(uuid, true);
 }

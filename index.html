@@ -44,7 +44,7 @@
     <span class="adjust-text-size-header-small"> v2 by <a href="http://yanwittmann.de" style="text-decoration:none;color:inherit;">Yan Wittmann</a></span>
 </span>
 <div class="timer-selection-grid" id="timer-box-container">
-    <div class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal" onclick="timerLeftClicked(uuidv4(), true);" oncontextmenu="timerRightClicked(uuidv4());return false;">
+    <div class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal" onclick="timerLeftClicked(uuidv4());" oncontextmenu="timerRightClicked(uuidv4());return false;">
         <span class="adjust-text-size-small unselectable">&#43;</span>
     </div>
 </div>
@@ -78,13 +78,13 @@
 <div id="confirm-cookies" class="modal">
     <div class="modal-content background-color text-color">
         Welcome to Timerling!<br>
-        This tool allows you to create countdown timers and share them with others.<br><br>
+        This tool allows you to create countdown timers and share them with others via links.<br><br>
         To use this tool, you will have to agree to these two terms:
         <ul>
-            <li>To store the timers in your current browser, the JavaScript localStorage is used, essentially a form of a cookie</li>
-            <li>To find out, how popular of a service this tool is, every time this site is called and when a new timer is created, a request is made to my database to increment a counter</li>
+            <li>To store the timers in your browser, the JavaScript localStorage is used.</li>
+            <li>To find out, how popular of a service this tool is, every time this site is called and when a new timer is created, a request is made to my database to increment a counter.</li>
         </ul>
-        Other than that, no data is stored and certainly not shared with anyone else.<br>
+        Other than that, no data is stored and no personal data is shared with anyone.<br>
         <input type="button" id="btnAcceptCookies" onclick="acceptCookies();" value="Accept" class="input text-color clickable"/>
         <input type="button" id="btnDenyCookies" onclick="denyCookies();" value="Deny" class="input text-color clickable"/>
     </div>
@@ -96,9 +96,9 @@
         <i>Creating a timer</i><br>
         To create a timer, simply click the <i>+</i> symbol and enter the timer details.<br><br>
         <i>Edit a timer</i><br>
-        Right-click or long left-click a timer to edit its details.<br><br>
+        Left-click a timer to edit its details.<br><br>
         <i>Open a timer in big mode</i><br>
-        Left-click a timer to open a new tab with a large view of the countdown.<br><br>
+        Right-click or long left-click a timer to open a new tab with a large view of the countdown.<br><br>
         <input type="button" id="btnCloseTutorial" onclick="hideModal('tutorial-modal');" value="Close" class="input text-color clickable"/>
     </div>
 </div>

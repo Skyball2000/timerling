@@ -70,7 +70,7 @@ function findTimerWithUUID(uuid) {
     let timerElement = document.getElementById(uuid);
     if (timerElement == null) {
         timerElement = createElementFromHTML('' +
-            '<div id="' + uuid + '" class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal" onclick="timerLeftClicked(\'' + uuid + '\', false);" oncontextmenu="timerRightClicked(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
+            '<div id="' + uuid + '" class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal timer-box" onclick="timerLeftClicked(\'' + uuid + '\');" oncontextmenu="timerRightClicked(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
             '    <span class="adjust-text-size-smaller timer-title-element"></span>' +
             '    <span class="adjust-text-size-small timer-countdown-element"></span>' +
             '</div>');
@@ -158,16 +158,12 @@ function millisecondDiffToNow(time) {
 }
 
 function timerRightClicked(uuid) {
-    modifyTimerIntent(uuid);
+    switchFromGroupedToLarge(uuid, true);
 }
 
-function timerLeftClicked(uuid, isNewTimer) {
+function timerLeftClicked(uuid) {
     if (currentTimerModificationUUID != null) return;
-    if (isNewTimer) {
-        modifyTimerIntent(uuid);
-    } else {
-        switchFromGroupedToLarge(uuid, true);
-    }
+    modifyTimerIntent(uuid);
 }
 
 let currentTimerModificationUUID = null;
@@ -235,6 +231,50 @@ function removeTimerDomElement(uuid) {
     document.getElementById('timer-box-container').removeChild(findTimerWithUUID(uuid));
 }
 
+function removeDuplicateTimers() {
+    let names = [];
+    let destinations = [];
+
+    let newConfigArray = JSON.parse('[]');
+    let currentConfigs = getLocalStorageTimerData();
+    for (let i = 0; i < currentConfigs.length; i++) {
+        let currentName = currentConfigs[i]['n'];
+        let currentDestination = currentConfigs[i]['n'];
+        let found = false;
+        for (let i = 0; i < names.length; i++) {
+            if (names[i] === currentName && destinations[i] === currentDestination) {
+                found = true;
+            }
+        }
+        if (found) continue;
+        names.push(currentName);
+        destinations.push(currentDestination);
+        newConfigArray.push(currentConfigs[i]);
+    }
+    saveJSON('timers', newConfigArray);
+    completeRefreshOfGroupedTimers();
+}
+
+function findReplacementTimer(name, destination) {
+    let currentConfigs = getLocalStorageTimerData();
+    for (let i = 0; i < currentConfigs.length; i++) {
+        let currentName = currentConfigs[i]['n'];
+        let currentDestination = currentConfigs[i]['d'];
+        if (currentName === name && currentDestination === destination)
+            return currentConfigs[i]['i'];
+    }
+    return null;
+}
+
+function completeRefreshOfGroupedTimers() {
+    if (!document.getElementById('timer-box-container')) return;
+    let elements = document.getElementsByClassName('timer-box');
+    for (let i = 0; i < elements.length; i++) {
+        document.getElementById('timer-box-container').removeChild(elements[i]);
+    }
+    updateTimers(getLocalStorageTimerData());
+}
+
 function removeTimerJson(uuid) {
     let timerConfigIndex = getLocalStorageTimerJSONIndex(uuid);
     let newConfigArray = JSON.parse('[]');
@@ -248,10 +288,10 @@ function removeTimerJson(uuid) {
 }
 
 function createOrUpdateJsonTimer(uuid, formattedDestination, name, method) {
+    let timerConfig = getLocalStorageTimerJSON(uuid);
     let newConfigArray = removeTimerJson(uuid);
 
     // check if the timer already exists or if a new one has to be created
-    let timerConfig = getLocalStorageTimerJSON(uuid);
     if (timerConfig) {
         timerConfig['n'] = name;
         timerConfig['d'] = formattedDestination;
@@ -317,6 +357,10 @@ function checkIfURLContainsTimerAndAddIt() {
     if (method != null && destination != null) {
         let uuid = uuidv4();
         createOrUpdateJsonTimer(uuid, destination, name, method);
+        removeDuplicateTimers();
+        let replacementUUID = findReplacementTimer(name, destination);
+        if (replacementUUID != null) uuid = replacementUUID;
+
         if (large != null) {
             switchFromGroupedToLarge(uuid, false);
         } else {

@@ -108,11 +108,11 @@ html, body {
 /* adjust the text size depending on the window width */
 @media (min-width: 600px) {
     .adjust-text-size-small {
-        font-size: max(3vw, 50px);
+        font-size: min(max(3vw, 50px), 60px);
     }
 
     .adjust-text-size-smaller {
-        font-size: max(2vw, 30px);
+        font-size: min(max(2vw, 30px), 40px);
     }
 
     .adjust-text-size-header {
@@ -193,8 +193,8 @@ html, body {
 }
 
 #large-countdown {
-    -webkit-filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, .5));
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, .5));
+    -webkit-filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, .5));
+    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, .5));
     line-height: max(11vw, 90px);
 }
 
