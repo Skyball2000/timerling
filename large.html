@@ -35,44 +35,24 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.3/moment-timezone-with-data.min.js"></script>
-    <script src="script/long-press-event.min.js" type="text/javascript"></script>
 </head>
 
-<body class="background-light-color">
-<span class="header-title text-color background-color">
-    <span class="adjust-text-size-header">Timerling </span>
-    <span class="adjust-text-size-header-small"> v2 by <a href="http://yanwittmann.de" style="text-decoration:none;color:inherit;">Yan Wittmann</a></span>
-</span>
-<div class="timer-selection-grid" id="timer-box-container">
-    <div class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal" onclick="timerLeftClicked(uuidv4(), true);" oncontextmenu="timerRightClicked(uuidv4());return false;">
-        <span class="adjust-text-size-small unselectable">&#43;</span>
-    </div>
+<body class="background-color">
+
+<div id="background-container">
+    <div class="background-wave background-wave-top flip"></div>
+    <div class="background-wave background-wave-bottom"></div>
 </div>
 
-<div id="timer-editor" class="modal">
-    <div class="modal-content background-color text-color">
-        <span class="modal-close-button text-color unselectable" onclick="cancelModifyTimer();">&times;</span>
+<div class="center-screen">
+    <span id="large-countdown" class="text-color adjust-text-size-large-countdown">Text</span>
+</div>
 
-        <input type="datetime-local" id="picker-datetime" class="input text-color"/>
-        <select id="picker-timezone" class="input text-color"></select>
-        <select id="picker-display-mode" class="input text-color">
-            <option value="def" selected>Default</option>
-            <option value="smart">Smart</option>
-            <option value="day">Days</option>
-            <option value="hr">Hours</option>
-            <option value="min">Minutes</option>
-            <option value="sec">Seconds</option>
-            <option value="ms">Milliseconds</option>
-            <option value="ow">Outer Wilds</option>
-        </select>
-        <input type="text" id="input-countdown-name" name="input-countdown-name" size="20" placeholder="Countdown name" class="input text-color"/>
-        <br>
-        <input type="button" id="btnSubmitTimerInput" onclick="confirmModifyTimer();" value="Confirm (enter)" class="input text-color clickable"/>
-        <input type="button" id="btnCopyTimerInput" onclick="copyTimerURL(false, null);" value="Copy Link" class="input text-color clickable"/>
-        <input type="button" id="btnDeleteTimerInput" onclick="deleteModifyTimer();" value="Delete" class="input text-color clickable"/>
-        <input type="button" id="btnCancelTimerInput" onclick="cancelModifyTimer();" value="Cancel (esc)" class="input text-color clickable"/>
-
-    </div>
+<div id="top-icons" class="top-icons fade-out-animation">
+    <span id="countdown-name" class="background-color text-color large-view-top-indicator unselectable hidden"></span>
+    <span id="countdown-destination" class="background-color text-color large-view-top-indicator unselectable hidden"></span>
+    <span id="countdown-copy-link" class="background-color text-color large-view-top-indicator unselectable clickable hidden" onclick="copyLargeTimerLink();">Copy Link</span>
+    <span id="countdown-create-new" class="background-color text-color large-view-top-indicator unselectable clickable hidden" onclick="switchFromLargeToGrouped();">Create new</span>
 </div>
 
 <div id="confirm-cookies" class="modal">
@@ -90,27 +70,18 @@
     </div>
 </div>
 
-<div id="tutorial-modal" class="modal">
-    <div class="modal-content background-color text-color">
-        <span class="modal-close-button text-color unselectable" onclick="hideModal('tutorial-modal');">&times;</span>
-        <i>Creating a timer</i><br>
-        To create a timer, simply click the <i>+</i> symbol and enter the timer details.<br><br>
-        <i>Edit a timer</i><br>
-        Right-click or long left-click a timer to edit its details.<br><br>
-        <i>Open a timer in big mode</i><br>
-        Left-click a timer to open a new tab with a large view of the countdown.<br><br>
-        <input type="button" id="btnCloseTutorial" onclick="hideModal('tutorial-modal');" value="Close" class="input text-color clickable"/>
-    </div>
-</div>
-
-<span class="floating-action-button fab-right adjust-text-size-small unselectable clickable background-color text-color" onclick="showModal('tutorial-modal');">?</span>
-
+<script>
+    function pickRandomEntry(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    }
+    document.getElementById('large-countdown').innerHTML = pickRandomEntry(['calculating...', 'fetching data...', 'please wait...', 'stand by...', 'loading...', 'counting down...', 'large view...', 'loading amazingness...', 'hacking pentagon...', 'eating sandwiches...']);
+</script>
 <script src="script/util.js"></script>
 <script src="script/modal.js"></script>
 <script src="script/timer.js"></script>
 <script src="script/cookies.js"></script>
 <script src="script/main.js"></script>
-<script>init(0);</script>
+<script>init(1);</script>
 </body>
 
 </html>
