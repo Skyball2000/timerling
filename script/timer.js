@@ -189,6 +189,12 @@ function confirmModifyTimer() {
     if (currentTimerModificationUUID == null) return;
     hideModal('timer-editor');
 
+    confirmModifyTimerSaveData();
+
+    currentTimerModificationUUID = null;
+}
+
+function confirmModifyTimerSaveData() {
     let inputCountdownName = document.getElementById("input-countdown-name").value;
     let inputDateTime = document.getElementById('picker-datetime').value;
     let inputTimeZone = document.getElementById("picker-timezone").value;
@@ -197,12 +203,18 @@ function confirmModifyTimer() {
     let inputUTCMoment = formatDate(inputTimeZoneMoment.utc());
 
     createOrUpdateJsonTimer(currentTimerModificationUUID, inputUTCMoment, inputCountdownName, inputDisplayType);
+}
+
+function modifyMakeCloudTimer() {
+    if (currentTimerModificationUUID == null) return;
+    hideModal('timer-editor');
+
+    confirmModifyTimerSaveData();
 
     currentTimerModificationUUID = null;
 }
 
 function copyTimerURL(isOpenLargeDirectly, timerJson) {
-    console.log(isOpenLargeDirectly);
     if (timerJson == null)
         timerJson = getLocalStorageTimerJSON(currentTimerModificationUUID);
 

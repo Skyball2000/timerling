@@ -65,6 +65,5 @@ function longPressed(element) {
     let uuid = element.id;
     if (uuid == null || uuid === '')
         uuid = element.parentElement.id;
-    console.log(element);
     switchFromGroupedToLarge(uuid, true);
 }
