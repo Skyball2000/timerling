@@ -44,7 +44,10 @@
     <span class="adjust-text-size-header-small"> v2 by <a href="http://yanwittmann.de" style="text-decoration:none;color:inherit;">Yan Wittmann</a></span>
 </span>
 <div class="timer-selection-grid" id="timer-box-container">
-    <div class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal" onclick="timerLeftClicked(uuidv4());" oncontextmenu="timerRightClicked(uuidv4());return false;">
+    <div class="timer-selection-grid-element material-card bounding-hover background-color text-color center-text-vertical center-text-horizontal" onclick="timerLeftClicked(uuidv4());">
+        <span class="adjust-text-size-small unselectable">&#43;</span>
+    </div>
+    <div id="add-new-cloud-countdown" class="timer-selection-grid-element material-card cloud-bounding-hover cloud-background-color cloud-text-color center-text-vertical center-text-horizontal hidden" onclick="modifyCloudTimerIntent(uuidv4());">
         <span class="adjust-text-size-small unselectable">&#43;</span>
     </div>
 </div>
@@ -96,18 +99,34 @@
         <i>Creating a timer</i><br>
         To create a timer, simply click the <i>+</i> symbol and enter the timer details.<br><br>
         <i>Edit a timer</i><br>
-        Left-click a timer to edit its details.<br><br>
+        Right-click or long left-click a timer to edit its details.<br><br>
         <i>Open a timer in big mode</i><br>
-        Right-click or long left-click a timer to open a new tab with a large view of the countdown.<br><br>
+        Left-click a timer to open a large view of the countdown.<br><br>
         <input type="button" id="btnCloseTutorial" onclick="hideModal('tutorial-modal');" value="Close" class="input text-color clickable"/>
     </div>
 </div>
 
-<span class="floating-action-button fab-right adjust-text-size-small unselectable clickable background-color text-color" onclick="showModal('tutorial-modal');">?</span>
+<div id="cloud-collections-modal" class="modal">
+    <div class="modal-content cloud-background-color cloud-text-color">
+        <span class="modal-close-button text-color unselectable" onclick="hideModal('cloud-collections-modal');loadCloudTimers();">&times;</span>
+        Cloud collections allow you to sync timers across multiple devices.<br>
+        Enter an identifier below to add it to your list.<br>
+        Be careful! Anyone with this identifier can add/edit/remove timers from the collection.<br>
+        <input type="text" id="input-collection-name" name="input-countdown-name" size="20" placeholder="Collection" class="input cloud-text-color"/>
+        <input type="button" id="btnAddCloudCollection" onclick="addCloudCollectionItem(document.getElementById('input-collection-name').value);" value="Add Collection" class="input cloud-text-color clickable" style="margin-bottom: 20px;"/><br>
+        Click to select, right-click (long-click) to remove.<br>
+        <span id="output-current-collections"></span><br>
+        <input type="button" id="btnCloseCloudCollections" onclick="hideModal('cloud-collections-modal');loadCloudTimers();" value="Close" class="input cloud-text-color clickable"/>
+    </div>
+</div>
+
+<span class="floating-action-button fab-right-1 center-text-horizontal center-text-vertical unselectable clickable bounding-hover background-color text-color" onclick="showModal('tutorial-modal');">?</span>
+<span class="floating-action-button fab-right-2 center-text-horizontal center-text-vertical unselectable clickable cloud-bounding-hover cloud-background-color cloud-text-color" onclick="showModal('cloud-collections-modal');">⧂</span>
 
 <script src="script/util.js"></script>
 <script src="script/modal.js"></script>
 <script src="script/timer.js"></script>
+<script src="script/cloud-timers.js"></script>
 <script src="script/cookies.js"></script>
 <script src="script/main.js"></script>
 <script>init(0);</script>

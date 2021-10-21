@@ -21,9 +21,10 @@ function init(mode) {
     if (mode === 0) { // grouped view
         // load the timers stored in the localStorage
         checkIfURLContainsTimerAndAddIt();
-        updateTimers(getLocalStorageTimerData());
+        updateTimers(getLocalStorageTimerData(), false);
         updateInterval = setInterval(function () {
-            updateTimers(getLocalStorageTimerData());
+            updateTimers(getLocalStorageTimerData(), false);
+            updateTimers(cloudTimers, true);
         }, 500);
 
 
@@ -44,9 +45,10 @@ function init(mode) {
             }
         });
 
-        document.addEventListener('long-press', function (e) {
-            longPressed(e.target);
-        });
+        // cloud timer related
+        addCloudTimerElementsIfHasCollections();
+        syncCloudCollectionOutputs();
+        setTimeout(loadCloudTimers, 20);
     } else if (mode === 1) { // large view
         // load the timer from the UUID in the url
         updateInterval = setInterval(function () {
@@ -59,12 +61,20 @@ function init(mode) {
         };
         document.addEventListener('mousemove', mouseListener, false);
     }
+
+    document.addEventListener('long-press', function (e) {
+        longPressed(e.target);
+    });
 }
 
 function longPressed(element) {
-    let uuid = element.id;
-    if (uuid == null || uuid === '')
-        uuid = element.parentElement.id;
-    console.log(element);
-    switchFromGroupedToLarge(uuid, true);
+    if (element.classList.contains('timer-box') || element.classList.contains('timer-countdown-element') || element.classList.contains('timer-title-element')) {
+        let uuid = element.id;
+        if (uuid == null || uuid === '')
+            uuid = element.parentElement.id;
+        if (uuid != null && uuid !== '')
+            modifyTimerIntent(uuid);
+    } else if (element.classList.contains('collection-identifier')) {
+        removeCloudCollectionItem(element.innerHTML);
+    }
 }

@@ -5,7 +5,7 @@ function areCookiesConfirmed() {
 function showCookieModal() {
     showModal("confirm-cookies");
     timerElement = createElementFromHTML('' +
-        '<div class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal">' +
+        '<div class="timer-selection-grid-element material-card bounding-hover background-color text-color center-text-vertical center-text-horizontal">' +
         '    <span style="line-height:25px;">' +
         '        Please accept the terms of use first. If no modal opened where you can confirm them, disable your extension that blocks cookie notifications.' +
         '    </span>' +
