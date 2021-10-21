@@ -20,14 +20,10 @@ try {
             // build an array with the returned timers
             $timerData = array();
             if (mysqli_num_rows($result) > 0) {
+                $counter = 0;
                 while ($row = mysqli_fetch_assoc($result)) {
                     // add the timer to the array
-                    $entry->uuid = $row['uuid'];
-                    $entry->owner = $row['owner'];
-                    $entry->destination = $row['destination'];
-                    $entry->method = $row['method'];
-                    $entry->name = $row['name'];
-                    array_push($timerData, $entry);
+                    array_push($timerData, $row);
                 }
                 $returnValue->code = "success";
                 $returnValue->reason = "timerList";

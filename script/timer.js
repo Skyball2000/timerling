@@ -71,7 +71,7 @@ function findTimerWithUUID(uuid, cloudTimer) {
     if (timerElement == null) {
         if (cloudTimer) {
             timerElement = createElementFromHTML('' +
-                '<div id="' + uuid + '" class="timer-selection-grid-element material-card cloud-bounding-hover cloud-background-color cloud-text-color center-text-vertical center-text-horizontal timer-box online-timer-box" onclick="alert(\'TODO\');" oncontextmenu="modifyCloudTimerIntent(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
+                '<div id="' + uuid + '" class="timer-selection-grid-element material-card cloud-bounding-hover cloud-background-color cloud-text-color center-text-vertical center-text-horizontal timer-box online-timer-box" onclick="alert(\'Sorry, but cloud timers do not support large view yet.\');" oncontextmenu="modifyCloudTimerIntent(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
                 '    <span class="adjust-text-size-smaller timer-title-element"></span>' +
                 '    <span class="adjust-text-size-small timer-countdown-element"></span>' +
                 '</div>');
@@ -166,18 +166,19 @@ function millisecondDiffToNow(time) {
 }
 
 function timerRightClicked(uuid) {
-    switchFromGroupedToLarge(uuid, true);
+    modifyTimerIntent(uuid);
 }
 
 function timerLeftClicked(uuid) {
-    if (currentTimerModificationUUID != null) return;
-    modifyTimerIntent(uuid);
+    if (currentTimerModificationUUID != null || currentOnlineTimerModificationUUID != null) return;
+    switchFromGroupedToLarge(uuid);
 }
 
 let currentTimerModificationUUID = null;
 
 function modifyTimerIntent(uuid) {
-    if (currentTimerModificationUUID != null) return;
+    if (currentTimerModificationUUID != null || currentOnlineTimerModificationUUID != null) return;
+    document.getElementById('btnCopyTimerInput').classList.remove('hidden');
     currentTimerModificationUUID = uuid;
     if (!checkIfTimerExists(uuid)) {
         loadDefaultDateTime();
@@ -196,12 +197,13 @@ function modifyTimerIntent(uuid) {
 }
 
 function confirmModifyTimer() {
-    if (currentTimerModificationUUID == null) return;
+    if (currentTimerModificationUUID == null && currentOnlineTimerModificationUUID == null) return;
     hideModal('timer-editor');
 
     confirmModifyTimerSaveData();
 
     currentTimerModificationUUID = null;
+    currentOnlineTimerModificationUUID = null;
 }
 
 function confirmModifyTimerSaveData() {
@@ -212,7 +214,12 @@ function confirmModifyTimerSaveData() {
     let inputTimeZoneMoment = moment.tz(inputDateTime, inputTimeZone);
     let inputUTCMoment = formatDate(inputTimeZoneMoment.utc());
 
-    createOrUpdateJsonTimer(currentTimerModificationUUID, inputUTCMoment, inputCountdownName, inputDisplayType);
+    if (currentTimerModificationUUID != null) {
+        createOrUpdateJsonTimer(currentTimerModificationUUID, inputUTCMoment, inputCountdownName, inputDisplayType);
+    } else if (currentOnlineTimerModificationUUID != null) {
+        insertOrUpdateCloudTimer(currentOnlineTimerModificationUUID, localStorage.getItem('activeCollection'), inputUTCMoment, inputCountdownName, inputDisplayType);
+        setTimeout(loadCloudTimers, 200);
+    }
 }
 
 function copyTimerURL(isOpenLargeDirectly, timerJson) {
@@ -226,17 +233,24 @@ function copyTimerURL(isOpenLargeDirectly, timerJson) {
     copyToClipboard(urlBuilder);
 
     currentTimerModificationUUID = null;
+    currentOnlineTimerModificationUUID = null;
     if (!isOpenLargeDirectly)
         hideModal('timer-editor');
 }
 
 function deleteModifyTimer() {
-    if (currentTimerModificationUUID == null) return;
+    if (currentTimerModificationUUID == null && currentOnlineTimerModificationUUID == null) return;
 
-    removeTimerJson(currentTimerModificationUUID);
-    removeTimerDomElement(currentTimerModificationUUID);
-    updateTimers(getLocalStorageTimerData(), false);
-    currentTimerModificationUUID = null;
+    if (currentOnlineTimerModificationUUID != null) {
+        deleteOnlineTimer(currentOnlineTimerModificationUUID);
+        setTimeout(loadCloudTimers, 200);
+        currentOnlineTimerModificationUUID = null;
+    } else {
+        removeTimerJson(currentTimerModificationUUID);
+        removeTimerDomElement(currentTimerModificationUUID);
+        currentTimerModificationUUID = null;
+        updateTimers(getLocalStorageTimerData(), false);
+    }
     hideModal('timer-editor');
 }
 
@@ -331,6 +345,7 @@ function createOrUpdateJsonTimer(uuid, formattedDestination, name, method) {
 
 function cancelModifyTimer() {
     currentTimerModificationUUID = null;
+    currentOnlineTimerModificationUUID = null;
     hideModal('timer-editor');
 }
 
@@ -376,7 +391,7 @@ function checkIfURLContainsTimerAndAddIt() {
         if (replacementUUID != null) uuid = replacementUUID;
 
         if (large != null) {
-            switchFromGroupedToLarge(uuid, false);
+            switchFromGroupedToLarge(uuid);
         } else {
             window.location.href = window.location.href.split('?')[0];
         }
@@ -404,12 +419,9 @@ function copyLargeTimerLink() {
 }
 
 function switchFromLargeToGrouped() {
-    let url = urlWithoutFilename() + 'index.html';
-    window.location.href = url;
+    window.location.href = urlWithoutFilename() + 'index.html';
 }
 
-function switchFromGroupedToLarge(uuid, newTab) {
-    let url = urlWithoutFilename() + 'large.html' + '?i=' + uuid;
-    if (newTab && !detectMobile()) window.open(url, "_blank");
-    else window.location.href = url;
+function switchFromGroupedToLarge(uuid) {
+    window.location.href = urlWithoutFilename() + 'large.html' + '?i=' + uuid;
 }

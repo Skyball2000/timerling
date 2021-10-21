@@ -14,7 +14,7 @@ try {
         // establish the connection to the database and check if the connection works
         include('db-login.php');
         if ($dbSuccess == true) {
-            // get the collection identifier and all of the other data
+            // get the collection identifier and all the other data
             $collectionIdentifier = base64_encode($_POST["owner"]);
             $uuid = base64_encode($_POST["uuid"]);
             $name = base64_encode($_POST["name"]);
