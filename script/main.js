@@ -21,9 +21,10 @@ function init(mode) {
     if (mode === 0) { // grouped view
         // load the timers stored in the localStorage
         checkIfURLContainsTimerAndAddIt();
-        updateTimers(getLocalStorageTimerData());
+        updateTimers(getLocalStorageTimerData(), false);
         updateInterval = setInterval(function () {
-            updateTimers(getLocalStorageTimerData());
+            updateTimers(getLocalStorageTimerData(), false);
+            updateTimers(cloudTimers, true);
         }, 500);
 
 
@@ -48,7 +49,10 @@ function init(mode) {
             longPressed(e.target);
         });
 
+        // cloud timer related
+        addCloudTimerElementsIfHasCollections();
         syncCloudCollectionOutputs();
+        loadCloudTimers();
     } else if (mode === 1) { // large view
         // load the timer from the UUID in the url
         updateInterval = setInterval(function () {

@@ -8,6 +8,8 @@
     --light-mode-dark-strong: #fff0f0;
     --light-mode-dark-light: #ff9c9c;
     --light-mode-light: #33101e;
+    --light-mode-cloud-dark: #99b9ff;
+    --light-mode-cloud-light: #0d1b42;
 }
 
 /* color management based on dark or light scheme */
@@ -41,7 +43,7 @@
         transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
     }
 
-    .bounding-cloud-hover:hover {
+    .cloud-bounding-hover:hover {
         box-shadow: 0 0 0 2px var(--dark-mode-cloud-light), 0 0 3px 2px var(--dark-mode-cloud-dark);
         transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
     }
@@ -60,12 +62,25 @@
         color: var(--light-mode-light);
     }
 
+    .cloud-background-color {
+        background-color: var(--light-mode-cloud-dark);
+    }
+
+    .cloud-text-color {
+        color: var(--light-mode-cloud-light);
+    }
+
     .material-card {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
 
     .bounding-hover:hover {
         box-shadow: 0 0 0 2px var(--light-mode-light);
+        transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
+    }
+
+    .cloud-bounding-hover:hover {
+        box-shadow: 0 0 0 2px var(--light-mode-cloud-light), 0 0 3px 2px var(--light-mode-cloud-dark);
         transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
     }
 }
