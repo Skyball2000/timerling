@@ -1,10 +1,63 @@
-function insertCloudTimer(owner, name, destination, method) {
+let cloudTimers = [];
+
+function loadCloudTimers() {
+    removeOnlineTimersFromHTML();
+    cloudTimers = [];
     let parameters = new Map();
+    let collections = getCollectionIdentifiers();
+    for (let i = 0; i < collections.length; i++) {
+        parameters.set('owner', collections[i]);
+        makePOSTRequest('http://yanwittmann.de/projects/timerlingsnapshot/php/get-timers.php', parameters, function (response) {
+            loadCloudTimersCallback(response);
+        });
+    }
+}
+
+function removeOnlineTimersFromHTML() {
+    let timerBoxes = document.getElementsByClassName('online-timer-box');
+    for (let i = 0; i < timerBoxes.length; i++) {
+        document.getElementById('timer-box-container').removeChild(timerBoxes[i]);
+    }
+}
+
+function loadCloudTimersCallback(response) {
+    response = JSON.parse(response);
+    if (response['reason'] === 'timerList') {
+        response = response['details'];
+        for (let i = 0; i < response.length; i++) {
+            let newArr = [];
+            newArr['i'] = convertFromBase64(response[i]['uuid']);
+            newArr['o'] = convertFromBase64(response[i]['owner']);
+            newArr['n'] = convertFromBase64(response[i]['name']);
+            newArr['m'] = convertFromBase64(response[i]['method']);
+            newArr['d'] = convertFromBase64(response[i]['destination']);
+            cloudTimers.push(newArr);
+        }
+        updateTimers(cloudTimers, true);
+    }
+}
+
+function modifyCloudTimerIntent(uuid) {
+    console.log(uuid);
+    loadDefaultDateTime();
+    document.getElementById('input-countdown-name').value = '';
+    document.getElementById('picker-display-mode').value = 'def';
+    document.getElementById('btnCopyTimerInput').classList.add('hidden');
+    showModal('timer-editor');
+}
+
+function createCloudTimerClicked() {
+
+}
+
+function insertOrUpdateCloudTimer(uuid, owner, name, destination, method) {
+    let parameters = new Map();
+    parameters.set('uuid', uuid);
     parameters.set('owner', owner);
-    parameters.set('name', convertToBase64(name));
-    parameters.set('destination', convertToBase64(destination));
-    parameters.set('method', convertToBase64(method));
-    makePOSTRequest('http://yanwittmann.de/projects/timerlingsnapshot/php/create-timer.php', parameters, function (response) {
+    parameters.set('name', name);
+    parameters.set('destination', destination);
+    parameters.set('method', method);
+    makePOSTRequest('http://yanwittmann.de/projects/timerlingsnapshot/php/create-or-modify-timer.php', parameters, function (response) {
         console.log(response);
     });
 }
@@ -16,6 +69,10 @@ function setActiveCollectionItem(collection) {
 
 function removeCloudCollectionItem(collection) {
     collection = collection.replaceAll(';', ',');
+
+    if (localStorage.getItem('activeCollection') === collection) {
+        localStorage.removeItem('activeCollection');
+    }
 
     let currentCollections = getCollectionIdentifiers();
     currentCollections.splice(currentCollections.indexOf(collection), 1);
@@ -44,6 +101,8 @@ function syncCloudCollectionOutputs() {
         let entry = collectionIdentifiers[i];
         modalListElement.appendChild(createElementFromHTML('<span class="large-view-top-indicator unselectable ' + (entry !== activeCollection ? 'cloud-background-color cloud-text-color bounding-cloud-hover' : 'background-color text-color bounding-hover') + '" onclick="setActiveCollectionItem(\'' + entry + '\');" oncontextmenu="removeCloudCollectionItem(\'' + entry + '\'); return false;">' + entry + '</span>'));
     }
+
+    addCloudTimerElementsIfHasCollections();
 }
 
 function getCollectionIdentifiers() {
@@ -59,8 +118,11 @@ function getCollectionIdentifiers() {
 }
 
 function addCloudTimerElementsIfHasCollections() {
-    if (getCollectionIdentifiers().length > 0) {
-
+    let collections = getCollectionIdentifiers();
+    if (collections.length > 0 && collections.includes(localStorage.getItem('activeCollection'))) {
+        document.getElementById('add-new-cloud-countdown').classList.remove('hidden');
+    } else {
+        document.getElementById('add-new-cloud-countdown').classList.add('hidden');
     }
 }
 

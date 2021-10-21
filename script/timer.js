@@ -21,20 +21,20 @@ function getLocalStorageTimerJSONIndex(uuid) {
     return -1;
 }
 
-function updateTimers(timersJson) {
+function updateTimers(timersJson, cloudTimer) {
     for (let currentTimer of timersJson) {
-        updateTimer(currentTimer);
+        updateTimer(currentTimer, cloudTimer);
     }
 }
 
-function updateTimer(timerJson) {
+function updateTimer(timerJson, cloudTimer) {
     let uuid = timerJson['i'];
     if (uuid == null) uuid = uuidv4();
     let name = timerJson['n'];
     let destination = timerJson['d'];
     let method = timerJson['m'];
 
-    let timerElement = findTimerWithUUID(uuid);
+    let timerElement = findTimerWithUUID(uuid, cloudTimer);
     let titleElement = timerElement.getElementsByClassName('timer-title-element');
     let countdownElement = timerElement.getElementsByClassName('timer-countdown-element');
     for (let i = 0; i < titleElement.length; i++) {
@@ -45,7 +45,7 @@ function updateTimer(timerJson) {
     }
 }
 
-function updateLargeTimer(timerJson) {
+function updateLargeTimer(timerJson, cloudTimer) {
     let uuid = timerJson['i'];
     if (uuid == null) return;
     let name = timerJson['n'];
@@ -66,14 +66,22 @@ function updateLargeTimer(timerJson) {
     document.getElementById('countdown-create-new').classList.remove('hidden');
 }
 
-function findTimerWithUUID(uuid) {
+function findTimerWithUUID(uuid, cloudTimer) {
     let timerElement = document.getElementById(uuid);
     if (timerElement == null) {
-        timerElement = createElementFromHTML('' +
-            '<div id="' + uuid + '" class="timer-selection-grid-element material-card bounding-hover background-color text-color center-text-vertical center-text-horizontal timer-box" onclick="timerLeftClicked(\'' + uuid + '\');" oncontextmenu="timerRightClicked(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
-            '    <span class="adjust-text-size-smaller timer-title-element"></span>' +
-            '    <span class="adjust-text-size-small timer-countdown-element"></span>' +
-            '</div>');
+        if (cloudTimer) {
+            timerElement = createElementFromHTML('' +
+                '<div id="' + uuid + '" class="timer-selection-grid-element material-card cloud-bounding-hover cloud-background-color cloud-text-color center-text-vertical center-text-horizontal timer-box online-timer-box" onclick="alert(\'TODO\');" oncontextmenu="modifyCloudTimerIntent(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
+                '    <span class="adjust-text-size-smaller timer-title-element"></span>' +
+                '    <span class="adjust-text-size-small timer-countdown-element"></span>' +
+                '</div>');
+        } else {
+            timerElement = createElementFromHTML('' +
+                '<div id="' + uuid + '" class="timer-selection-grid-element material-card bounding-hover background-color text-color center-text-vertical center-text-horizontal timer-box" onclick="timerLeftClicked(\'' + uuid + '\');" oncontextmenu="timerRightClicked(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
+                '    <span class="adjust-text-size-smaller timer-title-element"></span>' +
+                '    <span class="adjust-text-size-small timer-countdown-element"></span>' +
+                '</div>');
+        }
         document.getElementById('timer-box-container').prepend(timerElement);
     }
     return timerElement;
@@ -227,13 +235,13 @@ function deleteModifyTimer() {
 
     removeTimerJson(currentTimerModificationUUID);
     removeTimerDomElement(currentTimerModificationUUID);
-    updateTimers(getLocalStorageTimerData());
+    updateTimers(getLocalStorageTimerData(), false);
     currentTimerModificationUUID = null;
     hideModal('timer-editor');
 }
 
 function removeTimerDomElement(uuid) {
-    document.getElementById('timer-box-container').removeChild(findTimerWithUUID(uuid));
+    document.getElementById('timer-box-container').removeChild(findTimerWithUUID(uuid, false));
 }
 
 function removeDuplicateTimers() {
@@ -277,7 +285,8 @@ function completeRefreshOfGroupedTimers() {
     for (let i = 0; i < elements.length; i++) {
         document.getElementById('timer-box-container').removeChild(elements[i]);
     }
-    updateTimers(getLocalStorageTimerData());
+    updateTimers(getLocalStorageTimerData(), false);
+    updateTimers(cloudTimers, true);
 }
 
 function removeTimerJson(uuid) {
@@ -317,7 +326,7 @@ function createOrUpdateJsonTimer(uuid, formattedDestination, name, method) {
     saveJSON('timers', newConfigArray);
 
     timerConfig = getLocalStorageTimerJSON(uuid);
-    updateTimer(timerConfig);
+    updateTimer(timerConfig, false);
 }
 
 function cancelModifyTimer() {
@@ -379,7 +388,7 @@ function loadLargeTimerFromUrlUUID() {
 
     if (uuid != null) {
         let timerJson = getLocalStorageTimerJSON(uuid);
-        updateLargeTimer(timerJson);
+        updateLargeTimer(timerJson, true);
     } else {
         switchFromLargeToGrouped();
     }

@@ -11,7 +11,7 @@ function checkForPOSTParam($identifier, $errorReason, $errorDetails, $returnValu
     return true;
 }
 
-function insertSQL($conn, $sql, $successReason, $successDetails, $returnValue)
+function executeSQL($conn, $sql, $successReason, $successDetails, $returnValue)
 {
     $result = $conn->query($sql);
 
