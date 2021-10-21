@@ -38,7 +38,7 @@ function updateTimer(timerJson, cloudTimer) {
     let titleElement = timerElement.getElementsByClassName('timer-title-element');
     let countdownElement = timerElement.getElementsByClassName('timer-countdown-element');
     for (let i = 0; i < titleElement.length; i++) {
-        titleElement.item(i).innerHTML = name;
+        titleElement.item(i).innerHTML = untofu(name);
     }
     for (let i = 0; i < countdownElement.length; i++) {
         countdownElement.item(i).innerHTML = getRemainingTime(destination, method);
@@ -189,7 +189,7 @@ function modifyTimerIntent(uuid) {
         let existingTimer = getLocalStorageTimerJSON(uuid);
         let timerDestination = existingTimer['d'].replaceAll('%20', ' ').replaceAll('%3A', ':').replaceAll('%2B', '+');
         loadTimeDateFromString(timerDestination);
-        document.getElementById('input-countdown-name').value = existingTimer['n'];
+        document.getElementById('input-countdown-name').value = untofu(existingTimer['n']);
         document.getElementById('picker-display-mode').value = existingTimer['m'];
         document.getElementById('btnCopyTimerInput').classList.remove('hidden');
     }

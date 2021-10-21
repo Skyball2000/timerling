@@ -111,7 +111,52 @@ function urlWithoutFilename() {
 
 function uniq(a) {
     let seen = {};
-    return a.filter(function(item) {
+    return a.filter(function (item) {
         return seen.hasOwnProperty(item) ? false : (seen[item] = true);
     });
+}
+
+function untofu(str) {
+    return str.replaceAll('Ã ́', '- Â ô').replaceAll('Å¡ ', 'š')
+        .replaceAll('Â¤', '¤').replaceAll('Ã¶', 'ö').replaceAll('Å¢', 'Þ')
+        .replaceAll('Â¦', '¦').replaceAll('Ã·', '÷').replaceAll('Å£', 'þ')
+        .replaceAll('Â§', '§').replaceAll('Ãº', 'ú').replaceAll('Å¤', '?')
+        .replaceAll('Â ̈', ' ̈').replaceAll('Ã¼', 'ü').replaceAll('Å¥', '?')
+        .replaceAll('Â©', '©').replaceAll('Ã½', 'ý').replaceAll('Å®', 'Ù')
+        .replaceAll('Â«', '«').replaceAll('Ä‚', 'Ã').replaceAll('Å ̄', 'ù')
+        .replaceAll('Â¬', '¬').replaceAll('Äƒ', 'ã').replaceAll('Å°', 'Û')
+        .replaceAll('Â-', '-').replaceAll('Ä„', '¥').replaceAll('Å±', 'û')
+        .replaceAll('Â®', '®').replaceAll('Ä...', '¹').replaceAll('Å¹', '?')
+        .replaceAll('Â°', '°').replaceAll('Ä†', 'Æ').replaceAll('Åº', 'Ÿ')
+        .replaceAll('Â±', '±').replaceAll('Ä‡ ', 'æ').replaceAll('Å»', '̄')
+        .replaceAll('Â ́', ' ́').replaceAll('ÄŒ', 'È').replaceAll('Å¼', '¿')
+        .replaceAll('Âμ', 'μ').replaceAll('Ä?', 'è').replaceAll('Å½', 'Ž')
+        .replaceAll('Â¶', '¶').replaceAll('ÄŽ', 'Ï').replaceAll('Å¾', 'ž')
+        .replaceAll('Â·', '·').replaceAll('Ä?', 'ï').replaceAll('Ë‡', '¡')
+        .replaceAll('Â ̧', ' ̧').replaceAll('Ä?', 'Ð').replaceAll('Ë ̃', '¢')
+        .replaceAll('Â»', '»').replaceAll('Ä‘', 'ð').replaceAll('Ë™', 'ÿ')
+        .replaceAll('Ã?', 'Á').replaceAll('Ä ̃', 'Ê').replaceAll('Ë›', '²')
+        .replaceAll('Ã‚', 'Â').replaceAll('Ä™', 'ê').replaceAll('Ë?', '½')
+        .replaceAll('Ã„', 'Ä').replaceAll('Äš', 'Ì').replaceAll('â€“', '–')
+        .replaceAll('Ã‡', 'Ç').replaceAll('Ä›', 'ì').replaceAll('â€”', '—')
+        .replaceAll('Ã‰', 'É').replaceAll('Ä¹', 'Å').replaceAll('â€ ̃', '‘')
+        .replaceAll('Ã‹', 'Ë').replaceAll('Äº', 'å').replaceAll('â€™', '’')
+        .replaceAll('Ã?', 'Í').replaceAll('Ä½', '¼').replaceAll('â€š', '‚')
+        .replaceAll('ÃŽ', 'Î').replaceAll('Ä¾', '¾').replaceAll('â€œ', '“')
+        .replaceAll('Ã“', 'Ó').replaceAll('Å?', '£').replaceAll('â€?', '”')
+        .replaceAll('Ã”', 'Ô').replaceAll('Å‚', '³').replaceAll('â€ž', '„')
+        .replaceAll('Ã–', 'Ö').replaceAll('Åƒ', 'Ñ').replaceAll('â€', '†')
+        .replaceAll('Ã—', '×').replaceAll('Å„', 'ñ').replaceAll('â€¡', '‡')
+        .replaceAll('Ãš', 'Ú').replaceAll('Å‡', 'Ò').replaceAll('â€¢', '•')
+        .replaceAll('Ãœ', 'Ü').replaceAll('Åˆ', 'ò').replaceAll('â€¦', '...')
+        .replaceAll('Ã?', 'Ý').replaceAll('Å?', 'Õ').replaceAll('â€°', '‰')
+        .replaceAll('ÃŸ', 'ß').replaceAll('Å‘', 'õ').replaceAll('â€¹', '‹')
+        .replaceAll('Ã¡', 'á').replaceAll('Å”', 'À').replaceAll('â€º', '›')
+        .replaceAll('Ã¢', 'â').replaceAll('Å•', 'à').replaceAll('â‚¬', '€')
+        .replaceAll('Ã¤', 'ä').replaceAll('Å ̃', 'Ø').replaceAll('â„¢', '™')
+        .replaceAll('Ã§', 'ç').replaceAll('Å™', 'ø').replaceAll('Ã©', 'é')
+        .replaceAll('Åš', 'Œ').replaceAll('Ã«', 'ë').replaceAll('Å›', 'œ')
+        .replaceAll('Ã-', 'í').replaceAll('Åž', 'ª').replaceAll('Ã®', 'î')
+        .replaceAll('ÅŸ', 'º').replaceAll('Ã³', 'ó').replaceAll('Å', 'Š')
+        .replaceAll('Ã', 'Ü').replaceAll('Ã', 'Ö').replaceAll('Ã', 'Ä');
 }

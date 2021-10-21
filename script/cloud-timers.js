@@ -60,7 +60,7 @@ function modifyCloudTimerIntent(uuid) {
         let existingTimer = cloudTimers.find(t => t['i'] === uuid);
         let timerDestination = existingTimer['d'].replaceAll('%20', ' ').replaceAll('%3A', ':').replaceAll('%2B', '+');
         loadTimeDateFromString(timerDestination);
-        document.getElementById('input-countdown-name').value = existingTimer['n'];
+        document.getElementById('input-countdown-name').value = untofu(existingTimer['n']);
         document.getElementById('picker-display-mode').value = existingTimer['m'];
     }
     showModal('timer-editor');

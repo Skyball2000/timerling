@@ -336,10 +336,17 @@ html, body {
     position: fixed;
     bottom: 20px;
     right: 20px;
+    fill: var(--dark-mode-light);
 }
 
 .fab-right-2 {
     position: fixed;
     bottom: 90px;
+    right: 20px;
+}
+
+.fab-right-3 {
+    position: fixed;
+    bottom: 160px;
     right: 20px;
 }
