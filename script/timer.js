@@ -70,7 +70,7 @@ function findTimerWithUUID(uuid) {
     let timerElement = document.getElementById(uuid);
     if (timerElement == null) {
         timerElement = createElementFromHTML('' +
-            '<div id="' + uuid + '" class="timer-selection-grid-element material-card background-color text-color center-text-vertical center-text-horizontal timer-box" onclick="timerLeftClicked(\'' + uuid + '\');" oncontextmenu="timerRightClicked(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
+            '<div id="' + uuid + '" class="timer-selection-grid-element material-card bounding-hover background-color text-color center-text-vertical center-text-horizontal timer-box" onclick="timerLeftClicked(\'' + uuid + '\');" oncontextmenu="timerRightClicked(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
             '    <span class="adjust-text-size-smaller timer-title-element"></span>' +
             '    <span class="adjust-text-size-small timer-countdown-element"></span>' +
             '</div>');
@@ -175,12 +175,14 @@ function modifyTimerIntent(uuid) {
         loadDefaultDateTime();
         document.getElementById('input-countdown-name').value = '';
         document.getElementById('picker-display-mode').value = 'def';
+        document.getElementById('btnCopyTimerInput').classList.add('hidden');
     } else {
         let existingTimer = getLocalStorageTimerJSON(uuid);
         let timerDestination = existingTimer['d'].replaceAll('%20', ' ').replaceAll('%3A', ':').replaceAll('%2B', '+');
         loadTimeDateFromString(timerDestination);
         document.getElementById('input-countdown-name').value = existingTimer['n'];
         document.getElementById('picker-display-mode').value = existingTimer['m'];
+        document.getElementById('btnCopyTimerInput').classList.remove('hidden');
     }
     showModal('timer-editor');
 }
@@ -203,15 +205,6 @@ function confirmModifyTimerSaveData() {
     let inputUTCMoment = formatDate(inputTimeZoneMoment.utc());
 
     createOrUpdateJsonTimer(currentTimerModificationUUID, inputUTCMoment, inputCountdownName, inputDisplayType);
-}
-
-function modifyMakeCloudTimer() {
-    if (currentTimerModificationUUID == null) return;
-    hideModal('timer-editor');
-
-    confirmModifyTimerSaveData();
-
-    currentTimerModificationUUID = null;
 }
 
 function copyTimerURL(isOpenLargeDirectly, timerJson) {

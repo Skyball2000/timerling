@@ -2,6 +2,9 @@
     --dark-mode-dark-strong: #1f1017;
     --dark-mode-dark-light: #48172b;
     --dark-mode-light: #ffa0a0;
+    --dark-mode-cloud-dark: #0d1b42;
+    --dark-mode-cloud-light: #99b9ff;
+
     --light-mode-dark-strong: #fff0f0;
     --light-mode-dark-light: #ff9c9c;
     --light-mode-light: #33101e;
@@ -17,6 +20,14 @@
         background-color: var(--dark-mode-dark-light);
     }
 
+    .cloud-background-color {
+        background-color: var(--dark-mode-cloud-dark);
+    }
+
+    .cloud-text-color {
+        color: var(--dark-mode-cloud-light);
+    }
+
     .text-color {
         color: var(--dark-mode-light);
     }
@@ -25,8 +36,14 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
 
-    .material-card:hover {
-        box-shadow: 0 0 0 2px var(--dark-mode-light);
+    .bounding-hover:hover {
+        box-shadow: 0 0 0 2px var(--dark-mode-light), 0 0 3px 2px var(--dark-mode-dark-strong);
+        transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
+    }
+
+    .bounding-cloud-hover:hover {
+        box-shadow: 0 0 0 2px var(--dark-mode-cloud-light), 0 0 3px 2px var(--dark-mode-cloud-dark);
+        transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
     }
 }
 
@@ -47,8 +64,9 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
 
-    .material-card:hover {
+    .bounding-hover:hover {
         box-shadow: 0 0 0 2px var(--light-mode-light);
+        transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1);
     }
 }
 
@@ -126,6 +144,12 @@ html, body {
     .adjust-text-size-large-countdown {
         font-size: max(13vw, 105px);
     }
+
+    .input {
+        padding: 12px 20px;
+        margin: 8px 4px;
+        font-size: 22px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -147,6 +171,12 @@ html, body {
 
     .adjust-text-size-large-countdown {
         font-size: 15vw;
+    }
+
+    .input {
+        padding: 8px 6px;
+        margin: 8px 4px;
+        font-size: 18px;
     }
 }
 
@@ -183,12 +213,9 @@ html, body {
 }
 
 .input {
-    padding: 12px 20px;
-    margin: 8px 4px;
     border: none;
     border-bottom: 3px solid #a25454;
     background-color: #0000;
-    font-size: 22px;
     max-width: 80vw;
 }
 
@@ -205,9 +232,10 @@ html, body {
 }
 
 .large-view-top-indicator {
+    display: inline-block;
     border: none;
-    padding: 6px 10px;
-    margin: 5px 3px;
+    padding: 6px 8px;
+    margin: 10px 4px;
     border-radius: 4px;
     font-size: 22px;
     max-width: 80vw;
@@ -279,10 +307,24 @@ html, body {
 }
 
 .floating-action-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: none;
+    outline: none;
+    font-size: 36px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.fab-right-1 {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 1;
-    padding: 0 24px;
-    border-radius: 30px;
+}
+
+.fab-right-2 {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
 }

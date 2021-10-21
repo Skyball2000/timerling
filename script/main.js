@@ -47,6 +47,8 @@ function init(mode) {
         document.addEventListener('long-press', function (e) {
             longPressed(e.target);
         });
+
+        syncCloudCollectionOutputs();
     } else if (mode === 1) { // large view
         // load the timer from the UUID in the url
         updateInterval = setInterval(function () {

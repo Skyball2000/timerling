@@ -116,3 +116,10 @@ function urlWithoutFilename() {
     let href = window.location.href;
     return href.substring(0, href.lastIndexOf('/')) + "/";
 }
+
+function uniq(a) {
+    let seen = {};
+    return a.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+}

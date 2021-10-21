@@ -27,4 +27,3 @@ try {
     $returnValue->details = "An uncaught error has occurred.";
 }
 echo json_encode($returnValue);
-
