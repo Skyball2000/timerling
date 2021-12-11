@@ -5,10 +5,16 @@ A version of this is hosted **[here](http://yanwittmann.de/projects/timerling/)*
 
 ## News
 
-- Version 2.1 has been released!  
-  You can now store timers in a database by creating collections and adding timers to them.
-- Version 2.0 has been released!  
-  You can now have multiple timers at the same time and display them on a grouped view.
+- Version 2.2 released!
+    - Added relative time input: enter a time like 10:35 and it will create a timer that counts down from 10 minutes and
+      35 seconds.
+    - Large mode now supports cloud timers.
+    - Redesigned light mode.
+    - Other minor improvements.
+- Version 2.1 released!
+    - You can now store timers in a database by creating collections and adding timers to them.
+- Version 2.0 released!
+    - You can now have multiple timers at the same time and display them on a grouped view.
 
 ## Other stuff
 
