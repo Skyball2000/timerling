@@ -55,8 +55,11 @@ function updateLargeTimer(timerJson, cloudTimer) {
     let timerElement = document.getElementById('large-countdown');
     timerElement.innerHTML = getRemainingTime(destination, method).replace(' remaining', '');
 
-    document.getElementById('countdown-name').innerHTML = name;
-    document.getElementById('countdown-name').classList.remove('hidden');
+    if (name !== undefined && name !== null && name.length > 0) {
+        document.title = name + ' | Timerling';
+        document.getElementById('countdown-name').innerHTML = name;
+        document.getElementById('countdown-name').classList.remove('hidden');
+    }
 
     let localMoment = utcToLocal(destination);
     document.getElementById('countdown-destination').innerHTML = formatDate(localMoment);
