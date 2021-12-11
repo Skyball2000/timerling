@@ -5,7 +5,10 @@ if (timestamp === "2021-09-28 10:00:00 +00:00" || timestamp === "2021-09-28%2010
     window.location.href = urlWithoutFilename();
 }
 
+let launchMode = 0;
+
 function init(mode) {
+    launchMode = mode;
     // make the user agree to the localStorage first
     if (areCookiesConfirmed()) {
         showCookieModal();

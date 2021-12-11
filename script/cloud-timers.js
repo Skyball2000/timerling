@@ -33,7 +33,7 @@ function loadCloudTimersCallback(response) {
     if (response['reason'] === 'timerList') {
         response = response['details'];
         for (let i = 0; i < response.length; i++) {
-            let newArr = [];
+            let newArr = {};
             newArr['i'] = convertFromBase64(response[i]['uuid']);
             newArr['o'] = convertFromBase64(response[i]['owner']);
             newArr['n'] = convertFromBase64(response[i]['name']);
@@ -41,8 +41,14 @@ function loadCloudTimersCallback(response) {
             newArr['d'] = convertFromBase64(response[i]['destination']);
             cloudTimers.push(newArr);
         }
-        updateTimers(cloudTimers, true);
+        if (launchMode === 0) {
+            updateTimers(cloudTimers, true);
+        }
     }
+}
+
+function getOnlineTimerJSON(uuid) {
+    return cloudTimers.find(x => x['i'] === uuid);
 }
 
 let currentOnlineTimerModificationUUID;
@@ -75,10 +81,6 @@ function insertOrUpdateCloudTimer(uuid, owner, destination, name, method) {
     parameters.set('method', method);
     makePOSTRequest('http://yanwittmann.de/projects/timerlingsnapshot/php/create-or-modify-timer.php', parameters, function (response) {
     });
-}
-
-function editCloudTimer(uuid) {
-
 }
 
 function setActiveCollectionItem(collection) {

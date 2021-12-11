@@ -11,6 +11,7 @@
     --light-mode-cloud-dark: #FB4E80;
     --light-mode-cloud-light: #0d1b42;
     --light-mode-large-background: #ffc4b6;
+    --light-mode-large-background-cloud: #99b9ff;
 }
 
 /* color management based on dark or light scheme */
@@ -25,6 +26,10 @@
 
     .background-color-large {
         background-color: var(--dark-mode-dark-light);
+    }
+
+    .background-color-large-cloud {
+        background-color: var(--dark-mode-cloud-dark);
     }
 
     .cloud-background-color {
@@ -69,6 +74,10 @@
 
     .background-color-large {
         background-color: var(--light-mode-large-background);
+    }
+
+    .background-color-large-cloud {
+        background-color: var(--light-mode-large-background-cloud);
     }
 
     .text-color {
@@ -267,7 +276,7 @@ html, body {
     display: inline-block;
     border: none;
     padding: 6px 8px;
-    margin: 10px 4px;
+    margin: 3px 4px;
     border-radius: 4px;
     font-size: 22px;
     max-width: 80vw;

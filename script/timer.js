@@ -46,11 +46,27 @@ function updateTimer(timerJson, cloudTimer) {
 }
 
 function updateLargeTimer(timerJson, cloudTimer) {
-    let uuid = timerJson['i'];
-    if (uuid == null) return;
-    let name = timerJson['n'];
-    let destination = timerJson['d'];
-    let method = timerJson['m'];
+    let uuid;
+    let name;
+    let destination;
+    let method;
+    if (timerJson != null) {
+        uuid = timerJson['i'];
+        if (uuid == null) return;
+        name = timerJson['n'];
+        destination = timerJson['d'];
+        method = timerJson['m'];
+    } else if (cloudTimer != null) {
+        uuid = cloudTimer['i'];
+        if (uuid == null) return;
+        name = cloudTimer['n'];
+        destination = cloudTimer['d'];
+        method = cloudTimer['m'];
+        document.body.classList.replace('background-color-large', 'background-color-large-cloud');
+        document.getElementById('large-countdown').classList.replace('text-color', 'cloud-text-color');
+    } else {
+        return;
+    }
 
     let timerElement = document.getElementById('large-countdown');
     timerElement.innerHTML = getRemainingTime(destination, method).replace(' remaining', '');
@@ -74,7 +90,7 @@ function findTimerWithUUID(uuid, cloudTimer) {
     if (timerElement == null) {
         if (cloudTimer) {
             timerElement = createElementFromHTML('' +
-                '<div id="' + uuid + '" class="timer-selection-grid-element material-card cloud-bounding-hover cloud-background-color cloud-text-color center-text-vertical center-text-horizontal timer-box online-timer-box" onclick="alert(\'Sorry, but cloud timers do not support large view yet.\');" oncontextmenu="modifyCloudTimerIntent(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
+                '<div id="' + uuid + '" class="timer-selection-grid-element material-card cloud-bounding-hover cloud-background-color cloud-text-color center-text-vertical center-text-horizontal timer-box online-timer-box" onclick="timerLeftClicked(\'' + uuid + '\');" oncontextmenu="modifyCloudTimerIntent(\'' + uuid + '\');return false;" data-long-press-delay="600">' +
                 '    <span class="adjust-text-size-smaller timer-title-element"></span>' +
                 '    <span class="adjust-text-size-small timer-countdown-element"></span>' +
                 '</div>');
@@ -444,12 +460,19 @@ function checkIfURLContainsTimerAndAddIt() {
     }
 }
 
+let hasLoadedOnlineTimersForLargeView = false;
+
 function loadLargeTimerFromUrlUUID() {
     let uuid = getUrlParameter('i');
 
     if (uuid != null) {
         let timerJson = getLocalStorageTimerJSON(uuid);
-        updateLargeTimer(timerJson, true);
+        if (!hasLoadedOnlineTimersForLargeView) {
+            loadCloudTimers();
+            hasLoadedOnlineTimersForLargeView = true;
+        }
+        let cloudTimerJson = getOnlineTimerJSON(uuid);
+        updateLargeTimer(timerJson, cloudTimerJson);
     } else {
         switchFromLargeToGrouped();
     }
