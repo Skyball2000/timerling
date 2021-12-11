@@ -108,6 +108,8 @@ function addCloudCollectionItem(collection) {
 
     localStorage.setItem('cloudCollections', currentCollections.join(';'));
     syncCloudCollectionOutputs();
+
+    document.getElementById('input-collection-name').value = '';
 }
 
 function syncCloudCollectionOutputs() {
@@ -140,8 +142,10 @@ function addCloudTimerElementsIfHasCollections() {
     let collections = getCollectionIdentifiers();
     if (collections.length > 0 && collections.includes(localStorage.getItem('activeCollection'))) {
         document.getElementById('add-new-cloud-countdown').classList.remove('hidden');
+        document.getElementById('btnSubmitTimerInputRelativeOnline').classList.remove('hidden');
     } else {
         document.getElementById('add-new-cloud-countdown').classList.add('hidden');
+        document.getElementById('btnSubmitTimerInputRelativeOnline').classList.add('hidden');
     }
 }
 

@@ -188,6 +188,7 @@ function modifyTimerIntent(uuid) {
         document.getElementById('input-countdown-name').value = '';
         document.getElementById('picker-display-mode').value = 'def';
         document.getElementById('btnCopyTimerInput').classList.add('hidden');
+        document.getElementById('btnRelativeInputMode').classList.remove('hidden');
     } else {
         let existingTimer = getLocalStorageTimerJSON(uuid);
         let timerDestination = existingTimer['d'].replaceAll('%20', ' ').replaceAll('%3A', ':').replaceAll('%2B', '+');
@@ -195,8 +196,42 @@ function modifyTimerIntent(uuid) {
         document.getElementById('input-countdown-name').value = untofu(existingTimer['n']);
         document.getElementById('picker-display-mode').value = existingTimer['m'];
         document.getElementById('btnCopyTimerInput').classList.remove('hidden');
+        document.getElementById('btnRelativeInputMode').classList.add('hidden');
     }
     showModal('timer-editor');
+}
+
+function confirmCreateNewRelativeTimer(isOnline) {
+    hideModal('timer-editor');
+    hideModal('timer-editor-relative');
+
+    let inputCountdownName = document.getElementById("input-countdown-name-relative").value;
+    let inputCountdownTowards = document.getElementById('input-countdown-time-relative').value;
+
+    let colonCount = (inputCountdownTowards.match(/:/g) || []).length;
+    let time = inputCountdownTowards.split(':');
+    let seconds;
+    if (colonCount === 2) {
+        seconds = parseInt((time[0] * 60 * 60) + '') + parseInt((time[1] * 60) + '') + parseInt(time[2] + '');
+    } else if (colonCount === 1) {
+        seconds = parseInt((time[0] * 60) + '') + parseInt(time[1] + '');
+    } else {
+        seconds = parseInt(time[0] + '');
+    }
+    let inputMoment = moment();
+    inputMoment.add(seconds, 'seconds');
+    let inputUTCMoment = formatDate(inputMoment.utc());
+
+    if (!isOnline) {
+        createOrUpdateJsonTimer(uuidv4(), inputUTCMoment, inputCountdownName, 'def');
+    } else {
+        if (inputCountdownName === '') inputCountdownName = 'New Timer';
+        insertOrUpdateCloudTimer(uuidv4(), localStorage.getItem('activeCollection'), inputUTCMoment, inputCountdownName, 'def');
+        setTimeout(loadCloudTimers, 200);
+    }
+
+    currentTimerModificationUUID = null;
+    currentOnlineTimerModificationUUID = null;
 }
 
 function confirmModifyTimer() {
@@ -346,10 +381,18 @@ function createOrUpdateJsonTimer(uuid, formattedDestination, name, method) {
     updateTimer(timerConfig, false);
 }
 
+function setInputMethodRelative() {
+    currentTimerModificationUUID = null;
+    currentOnlineTimerModificationUUID = null;
+    hideModal('timer-editor');
+    showModal('timer-editor-relative');
+}
+
 function cancelModifyTimer() {
     currentTimerModificationUUID = null;
     currentOnlineTimerModificationUUID = null;
     hideModal('timer-editor');
+    hideModal('timer-editor-relative');
 }
 
 function loadDefaultDateTime() {

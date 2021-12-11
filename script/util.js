@@ -1,7 +1,7 @@
 /* function to load a json object from the localStorage */
 function loadJSON(key) {
     var data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
+    return data ? JSON.parse(data) : {};
 }
 
 /* function to save a json object to the localStorage */

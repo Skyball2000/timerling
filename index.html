@@ -42,7 +42,7 @@
 <body class="background-light-color">
 <span class="header-title text-color background-color">
     <span class="adjust-text-size-header">Timerling </span>
-    <span class="adjust-text-size-header-small"> v2.1 by <a href="http://yanwittmann.de" style="text-decoration:none;color:inherit;">Yan Wittmann</a></span>
+    <span class="adjust-text-size-header-small"> v2.2 by <a href="http://yanwittmann.de" style="text-decoration:none;color:inherit;">Yan Wittmann</a></span>
 </span>
 <div class="timer-selection-grid" id="timer-box-container">
     <div class="timer-selection-grid-element material-card bounding-hover background-color text-color center-text-vertical center-text-horizontal" onclick="modifyTimerIntent(uuidv4());">
@@ -75,6 +75,21 @@
         <input type="button" id="btnCopyTimerInput" onclick="copyTimerURL(false, null);" value="Copy Link" class="input text-color clickable"/>
         <input type="button" id="btnDeleteTimerInput" onclick="deleteModifyTimer();" value="Delete" class="input text-color clickable"/>
         <input type="button" id="btnCancelTimerInput" onclick="cancelModifyTimer();" value="Cancel (esc)" class="input text-color clickable"/>
+        <input type="button" id="btnRelativeInputMode" onclick="setInputMethodRelative();" value="Relative input mode" class="input text-color clickable"/>
+
+    </div>
+</div>
+
+<div id="timer-editor-relative" class="modal">
+    <div class="modal-content background-color text-color">
+        <span class="modal-close-button text-color unselectable" onclick="cancelModifyTimer();">&times;</span>
+
+        <input type="text" id="input-countdown-time-relative" name="input-countdown-name" size="25" placeholder="12:55 or 55" class="input text-color"/>
+        <input type="text" id="input-countdown-name-relative" name="input-countdown-name" size="20" placeholder="Countdown name" class="input text-color"/>
+        <br>
+        <input type="button" id="btnSubmitTimerInputRelativeLocal" onclick="confirmCreateNewRelativeTimer(false);" value="Confirm (local)" class="input text-color clickable"/>
+        <input type="button" id="btnSubmitTimerInputRelativeOnline" onclick="confirmCreateNewRelativeTimer(true);" value="Confirm (online)" class="input text-color clickable"/>
+        <input type="button" id="btnCancelTimerInputRelative" onclick="cancelModifyTimer();" value="Cancel" class="input text-color clickable"/>
 
     </div>
 </div>
