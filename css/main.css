@@ -5,11 +5,12 @@
     --dark-mode-cloud-dark: #0d1b42;
     --dark-mode-cloud-light: #99b9ff;
 
-    --light-mode-dark-strong: #fff0f0;
-    --light-mode-dark-light: #ff9c9c;
-    --light-mode-light: #33101e;
-    --light-mode-cloud-dark: #99b9ff;
+    --light-mode-dark-strong: #F1F9F0;
+    --light-mode-dark-light: #ffb25a;
+    --light-mode-light: #683443;
+    --light-mode-cloud-dark: #FB4E80;
     --light-mode-cloud-light: #0d1b42;
+    --light-mode-large-background: #ffc4b6;
 }
 
 /* color management based on dark or light scheme */
@@ -19,6 +20,10 @@
     }
 
     .background-color {
+        background-color: var(--dark-mode-dark-light);
+    }
+
+    .background-color-large {
         background-color: var(--dark-mode-dark-light);
     }
 
@@ -32,6 +37,10 @@
 
     .text-color {
         color: var(--dark-mode-light);
+    }
+
+    .fab-right-1 {
+        fill: var(--dark-mode-light);
     }
 
     .material-card {
@@ -58,6 +67,10 @@
         background-color: var(--light-mode-dark-light);
     }
 
+    .background-color-large {
+        background-color: var(--light-mode-large-background);
+    }
+
     .text-color {
         color: var(--light-mode-light);
     }
@@ -68,6 +81,10 @@
 
     .cloud-text-color {
         color: var(--light-mode-cloud-light);
+    }
+
+    .fab-right-1 {
+        fill: var(--light-mode-light);
     }
 
     .material-card {
@@ -336,7 +353,6 @@ html, body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    fill: var(--dark-mode-light);
 }
 
 .fab-right-2 {
